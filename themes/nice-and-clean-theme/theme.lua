@@ -5,7 +5,7 @@ theme = {}
 theme.theme_dir = awful.util.getdir("config") .. "/themes/nice-and-clean-theme"
 theme.wallpaper_cmd = { "awsetbg " .. theme.theme_dir .. "/background.jpg" }
 
-theme.font          = "Inconsolata 12"
+theme.font          = "ProggyCleanTT 12"
 
 theme.bg_normal     = "#222222"
 theme.bg_focus      = "#d8d8d8"
