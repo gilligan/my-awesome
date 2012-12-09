@@ -11,7 +11,10 @@ require("debian.menu")
 
 local quake = require("quake")
 
--- startup error
+-- [[ error handling ]]
+-- handle errors on startup : displays a notification
+-- using naugthy.notify
+--
 do
 local in_error = false
 awesome.add_signal("debug::error", function (err)
@@ -27,39 +30,68 @@ awesome.add_signal("debug::error", function (err)
 		end)
 end
 
+
+--
+-- [[ startup applications ]]
+--
 awful.util.spawn_with_shell("xcompmgr &")
 
+--
+-- [[ theme ]]
+--
 
---  Variable definitions
 beautiful.init("/home/gilligan/.config/awesome/themes/nice-and-clean-theme/theme.lua")
+
+--
+-- [[ global variables ]]
+--
 
 blue 		= "#426797"
 white 		= "#ffffff"
 black 		= "#0a0a0b"
---red 		= "#ea3da3"
 red             = "#d02e54"
 green 		= "#16a712"
 grey 		= "#6d7c80"
 red             = "#ff0000"
-fontwidget 	= "MonteCarlo 8"
+--fontwidget 	= "MonteCarlo 8"
+fontwidget 	= "Inconsolata 12"
 space           = 32
+icons           = "/home/gilligan/.config/awesome/icons/"
 
-terminal = "xterm"
-editor = os.getenv("EDITOR") or "editor"
-editor_cmd = terminal .. " -e " .. editor
-browser = "firefox"
+--
+-- [[ default applications ]]
+--
+
+terminal    = "xterm"
+editor      = gvim
+editor      = os.getenv("EDITOR") or "editor"
+editor_cmd  = terminal .. " -e " .. editor
+browser     = "google-chrome"
+
+--
+-- [[ modifier key configuration ]]
+--
+modkey = "Mod1"
+opt    = "Mod2"
+
+--
+-- [[ aliases ]]
+--
 
 exec		= awful.util.spawn
 sexec		= awful.util.spawn_with_shell
+
+--
+-- [[ custome run-prompt ]]
+--
 
 myprompt	= "<span color='" .. red .. "'>></span>" ..
  "<span color='" .. red .. "'>></span>" ..
  "<span color='" .. red .. "'>> </span>"
 
-icons = "/home/gilligan/.config/awesome/icons/"
-
-modkey = "Mod1"
-opt = "Mod2"
+--
+-- [[ layouts to use ]]
+--
 
 layouts =
 {
@@ -137,7 +169,7 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 		return "<span font_desc='" .. fontwidget .."'>" .. args[1] .. "%" .. "</span>"
 	end
 	, 30)
-	mymem.width = 25
+	mymem.width = 40
 
 	mymemicon = widget({ type = "imagebox" })
 	mymemicon.image = image(icons .. "mem.png")
@@ -231,6 +263,7 @@ mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all, mytaglist
 			mypromptbox[s],
 			layout = awful.widget.layout.horizontal.leftright
 		},
+		mylayoutbox[s],
 		mytextclock,
 		mymem,
 		mymemicon,
@@ -238,7 +271,6 @@ mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all, mytaglist
 		mycpuloadicon,
 		kbdcfg.widget,
 		s == 1 and mysystray or nil,
-		mylayoutbox[s],
 		mytasklist[s],
 		layout = awful.widget.layout.horizontal.rightleft
 	}
