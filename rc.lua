@@ -142,6 +142,8 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 --
 
 mytextclock = awful.widget.textclock({ align = "right",}, "<span font_desc='" .. fontwidget .."'>" .. "%H:%M  " .. "</span>", 60)
+clockicon = widget({ type = "imagebox" });
+clockicon.image = image(icons .. "clock.png")
 
 --
 -- [[ keylayout widget  ]]
@@ -169,7 +171,7 @@ kbdcfg.widget:buttons(awful.util.table.join(
 --
 
 mymem = widget({ type = "textbox" })
-mymem.width = 40
+-- mymem.width = 40
 vicious.register(mymem, vicious.widgets.mem, function (widget, args)
 	return "<span font_desc='" .. fontwidget .."'>" .. args[1] .. "%" .. "</span>"
 end
@@ -186,9 +188,25 @@ vicious.register(mycpuload, vicious.widgets.cpu, function (widget, args)
 	return "<span font_desc='" .. fontwidget .."'>" .. args[1] .. "%" .. "</span>"
 	end
 , 5)
-mycpuload.width = 25
+mycpuload.width = 22
 mycpuloadicon = widget({ type = "imagebox" })
 mycpuloadicon.image = image(icons .. "cpu.png")
+
+--
+-- [[ spotify widget ]]
+-- 
+
+spotifywidget = widget({type = "textbox" })
+vicious.register( spotifywidget, vicious.widgets.spotify, function ( widget, args)
+    if args["{State}"] == 'Playing' then
+	local info = args["{Artist}"] .. ':' .. args["{Title}"]
+	return (info:gsub("^%s*(.-)%s*$","%1"))
+    else
+        return '--'
+    end
+end, 2)
+spotifyicon = widget({ type = "imagebox" });
+spotifyicon.image = image(icons .. "spotify.png")
 
 --
 -- [[ systray widget ]]
@@ -275,11 +293,14 @@ for s = 1, screen.count() do
 		},
 		mylayoutbox[s],
 		mytextclock,
+		clockicon,
 		mymem,
 		mymemicon,
 		mycpuload,
 		mycpuloadicon,
 		kbdcfg.widget,
+		spotifywidget,
+		spotifyicon,
 		s == 1 and mysystray or nil,
 		mytasklist[s],
 		layout = awful.widget.layout.horizontal.rightleft
