@@ -97,7 +97,6 @@ layouts =
 	awful.layout.suit.floating,
 	awful.layout.suit.tile.left,
 	awful.layout.suit.tile.top,
-	awful.layout.suit.fair,
 	awful.layout.suit.max,
 }
 
@@ -141,7 +140,8 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 -- [[ clock widget  ]]
 --
 
-mytextclock = awful.widget.textclock({ align = "right",}, "<span font_desc='" .. fontwidget .."'>" .. "%H:%M  " .. "</span>", 60)
+--mytextclock = awful.widget.textclock({ align = "right",}, "<span font_desc='" .. fontwidget .."'>" .. "%H:%M  " .. "</span>", 60)
+mytextclock = awful.widget.textclock({ align = "right",}, "<span font_desc='" .. fontwidget .."'>" .. "%H:%M " .. "</span>", 60)
 clockicon = widget({ type = "imagebox" });
 clockicon.image = image(icons .. "clock.png")
 
@@ -154,10 +154,10 @@ kbdcfg.cmd = "setxkbmap"
 kbdcfg.layout = { "us", "de" }
 kbdcfg.current = 1  -- us is our default layout
 kbdcfg.widget = widget({ type = "textbox", align = "right" })
-kbdcfg.widget.text = " " .. kbdcfg.layout[kbdcfg.current] .. " "
+kbdcfg.widget.text = kbdcfg.layout[kbdcfg.current]
 kbdcfg.switch = function ()
    kbdcfg.current = kbdcfg.current % #(kbdcfg.layout) + 1
-   local t = " " .. kbdcfg.layout[kbdcfg.current] .. " "
+   local t = kbdcfg.layout[kbdcfg.current]
    kbdcfg.widget.text = t
    os.execute( kbdcfg.cmd .. t )
 end
@@ -165,15 +165,18 @@ end
 kbdcfg.widget:buttons(awful.util.table.join(
     awful.button({ }, 1, function () kbdcfg.switch() end)
 ))
+kbdicon = widget({type = "imagebox"})
+kbdicon.image = image(icons .. "bug.png")
 
 --
 -- [[ memory load widget  ]]
 --
 
 mymem = widget({ type = "textbox" })
--- mymem.width = 40
+mymem.width = 22
 vicious.register(mymem, vicious.widgets.mem, function (widget, args)
-	return "<span font_desc='" .. fontwidget .."'>" .. args[1] .. "%" .. "</span>"
+	local num = string.format("%02d",args[1])
+	return "<span font_desc='" .. fontwidget .."'>" .. num .. "%" .. "</span>"
 end
 , 30)
 mymemicon = widget({ type = "imagebox" })
@@ -185,7 +188,8 @@ mymemicon.image = image(icons .. "mem.png")
 
 mycpuload = widget({ type = "textbox" })
 vicious.register(mycpuload, vicious.widgets.cpu, function (widget, args)
-	return "<span font_desc='" .. fontwidget .."'>" .. args[1] .. "%" .. "</span>"
+	local num = string.format("%02d",args[1])
+	return "<span font_desc='" .. fontwidget .."'>" .. num .. "%" .. "</span>"
 	end
 , 5)
 mycpuload.width = 22
@@ -299,6 +303,7 @@ for s = 1, screen.count() do
 		mycpuload,
 		mycpuloadicon,
 		kbdcfg.widget,
+		kbdicon,
 		spotifywidget,
 		spotifyicon,
 		s == 1 and mysystray or nil,
