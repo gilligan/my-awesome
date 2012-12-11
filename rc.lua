@@ -405,7 +405,9 @@ globalkeys = awful.util.table.join(
 		awful.key({modkey}, "'", function () sexec("sh ~/.config/awesome/extra/spotify-prev.sh") end),
 		awful.key({modkey}, "\\", function () sexec("sh ~/.config/awesome/extra/spotify-next.sh") end),
 
+		awful.key({modkey}, "`", function () quakeconsole[mouse.screen]:toggle() end),
 		awful.key({modkey}, "r", function () mypromptbox[mouse.screen]:run() end),
+
 		awful.key({ modkey }, "x",
 				function ()
 				awful.prompt.run({ prompt = "Run Lua code: " },
@@ -604,4 +606,4 @@ function run_or_raise(cmd, properties)
 		return
 	end
 	awful.util.spawn(cmd)
-end
+    end
