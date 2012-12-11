@@ -399,11 +399,11 @@ globalkeys = awful.util.table.join(
 		awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 		awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
-		awful.key({modkey}, "[", function () sexec("sh ~/noti/vol.sh down" ) end),
-		awful.key({modkey}, "]", function () sexec("sh ~/noti/vol.sh up") end),
+		awful.key({modkey}, "[", function () sexec("sh ~/.config/awesome/extra/vol.sh down" ) end),
+		awful.key({modkey}, "]", function () sexec("sh ~/.config/awesome/extra/vol.sh up") end),
 
-		awful.key({modkey}, "'", function () sexec("sh ~/.config/awesome/extra/spotify-prev.sh") end),
-		awful.key({modkey}, "\\", function () sexec("sh ~/.config/awesome/extra/spotify-next.sh") end),
+		awful.key({modkey}, "\;", function () sexec("sh ~/.config/awesome/extra/spotify-prev.sh") end),
+		awful.key({modkey}, "\'", function () sexec("sh ~/.config/awesome/extra/spotify-next.sh") end),
 
 		awful.key({modkey}, "`", function () quakeconsole[mouse.screen]:toggle() end),
 		awful.key({modkey}, "r", function () mypromptbox[mouse.screen]:run() end),
