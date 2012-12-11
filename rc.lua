@@ -6,13 +6,13 @@ require("beautiful")
 require("naughty")
 require("revelation")
 require("vicious")
-require("blingbling")
+-- require("blingbling")
 require("debian.menu")
 local quake = require("quake")
 
 --
 -- [[ error handling ]]
--- 
+--
 
 do
 local in_error = false
@@ -34,12 +34,14 @@ end
 -- [[ startup applications ]]
 --
 awful.util.spawn_with_shell("xcompmgr &")
+awful.util.spawn_with_shell("/home/tpflug/.bin/fixres.sh")
+awful.util.spawn_with_shell("/home/tpflug/.bin/fixkeyboard&")
 
 --
 -- [[ theme ]]
 --
 
-beautiful.init("/home/gilligan/.config/awesome/themes/nice-and-clean-theme/theme.lua")
+beautiful.init("/home/tpflug/.config/awesome/themes/nice-and-clean-theme/theme.lua")
 
 --
 -- [[ global variables ]]
@@ -48,13 +50,12 @@ beautiful.init("/home/gilligan/.config/awesome/themes/nice-and-clean-theme/theme
 blue 		= "#426797"
 white 		= "#ffffff"
 black 		= "#0a0a0b"
-red             = "#d02e54"
+red         = "#d02e54"
 green 		= "#16a712"
 grey 		= "#6d7c80"
-red             = "#ff0000"
 fontwidget 	= theme.font
-space           = 32
-icons           = "/home/gilligan/.config/awesome/icons/"
+space       = 32
+icons       = "/home/tpflug/.config/awesome/icons/"
 
 --
 -- [[ default applications ]]
@@ -69,8 +70,8 @@ browser     = "google-chrome"
 --
 -- [[ modifier key configuration ]]
 --
-modkey = "Mod1"
-opt    = "Mod2"
+ modkey = "Mod1"
+-- modkey = "#94"
 
 --
 -- [[ aliases ]]
@@ -100,15 +101,15 @@ layouts =
 	awful.layout.suit.max,
 }
 
-local quakeconsole = {}
-for s = 1, screen.count() do
-   quakeconsole[s] = quake({ terminal = 'xterm',
-			     height = 0.4,
-			     screen = s })
-end
+-- local quakeconsole = {}
+-- for s = 1, screen.count() do
+--   quakeconsole[s] = quake({ terminal = 'xterm',
+--			     height = 0.4,
+--			     screen = s })
+--end
 
 
---  
+--
 -- [[ specify tags ]]
 --
 
@@ -198,7 +199,7 @@ mycpuloadicon.image = image(icons .. "cpu.png")
 
 --
 -- [[ spotify widget ]]
--- 
+--
 
 spotifywidget = widget({type = "textbox" })
 vicious.register( spotifywidget, vicious.widgets.spotify, function ( widget, args)
@@ -312,7 +313,7 @@ for s = 1, screen.count() do
 	}
 end
 
--- 
+--
 --  Mouse bindings
 --
 root.buttons(awful.util.table.join(
@@ -335,7 +336,7 @@ globalkeys = awful.util.table.join(
 
 		-- mapping: <mod>-<esc>   : move to previous tag
 		awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
-		
+
 		-- mapping: <mod>-e       : mac-style expose function
 		awful.key({ modkey,           }, "e", revelation),
 
@@ -397,13 +398,13 @@ globalkeys = awful.util.table.join(
 		awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
 		awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 		awful.key({ modkey, "Control" }, "n", awful.client.restore),
+
 		awful.key({modkey}, "[", function () sexec("sh ~/noti/vol.sh down" ) end),
 		awful.key({modkey}, "]", function () sexec("sh ~/noti/vol.sh up") end),
-		
+
 		awful.key({modkey}, "'", function () sexec("sh ~/.config/awesome/extra/spotify-prev.sh") end),
 		awful.key({modkey}, "\\", function () sexec("sh ~/.config/awesome/extra/spotify-next.sh") end),
 
-		awful.key({modkey}, "`", function () quakeconsole[mouse.screen]:toggle() end),
 		awful.key({modkey}, "r", function () mypromptbox[mouse.screen]:run() end),
 		awful.key({ modkey }, "x",
 				function ()
@@ -481,7 +482,7 @@ globalkeys = awful.util.table.join(
 
 	-- Set keys
 root.keys(globalkeys)
-	-- 
+	--
 
 	--  Rules
 	awful.rules.rules = {
@@ -503,7 +504,7 @@ root.keys(globalkeys)
 	        { rule = { class = "Gvim" },
                         properties = { size_hints_honor = false } },
 	}
--- 
+--
 
 --  Signals
 -- Signal function to execute when a new client appears.
