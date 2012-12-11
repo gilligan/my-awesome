@@ -34,28 +34,30 @@ end
 -- [[ startup applications ]]
 --
 awful.util.spawn_with_shell("xcompmgr &")
-awful.util.spawn_with_shell("/home/tpflug/.bin/fixres.sh")
-awful.util.spawn_with_shell("/home/tpflug/.bin/fixkeyboard&")
+awful.util.spawn_with_shell("fixres.sh")
+awful.util.spawn_with_shell("fixkeyboard")
 
 --
 -- [[ theme ]]
 --
 
-beautiful.init("/home/tpflug/.config/awesome/themes/nice-and-clean-theme/theme.lua")
+beautiful.init(awful.util.getdir("config") .. "/themes/nice-and-clean-theme/theme.lua")
 
 --
 -- [[ global variables ]]
 --
 
+homeDir         = awful.util.getdir("config") .. "/../../"
+configDir       = awful.util.getdir("config")
 blue 		= "#426797"
 white 		= "#ffffff"
 black 		= "#0a0a0b"
-red         = "#d02e54"
+red             = "#d02e54"
 green 		= "#16a712"
 grey 		= "#6d7c80"
 fontwidget 	= theme.font
-space       = 32
-icons       = "/home/tpflug/.config/awesome/icons/"
+space           = 32
+icons           = configDir .. "/icons/"
 
 --
 -- [[ default applications ]]
