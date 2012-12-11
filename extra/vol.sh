@@ -1,24 +1,22 @@
-#!/bin/bash
+#!/bin/zsh
+set -x
 
-STEP="5" 
-UNIT="%"  
+STEP="5"
+UNIT="%"
 
 SETVOL="/usr/bin/amixer -q sset Master"
 STATE=$(amixer get Master | grep Left | egrep 'Playback.*?\[o' | egrep -o '\[o.+\]')
 
 case "$1" in
     "up")
-	  if [ $STATE == '[off]' ]; then
-	  $SETVOL unmute ;
-          fi
-          $SETVOL $STEP$UNIT+
-          ;;
-  "down")
-          $SETVOL $STEP$UNIT-
-          ;;
-  "mute")
-		  $SETVOL toggle
-          ;;
+        $SETVOL $STEP$UNIT+
+        ;;
+    "down")
+        $SETVOL $STEP$UNIT-
+        ;;
+    "mute")
+        $SETVOL toggle
+        ;;
 esac
 
 STATE=$(amixer get Master | grep Left | egrep 'Playback.*?\[o' | egrep -o '\[o.+\]')
@@ -148,7 +146,7 @@ else
 	echo 'volnoti()' | awesome-client
 	return 0
 	fi
-	
+
 fi
 
 exit 0
