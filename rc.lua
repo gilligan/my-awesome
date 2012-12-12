@@ -1,12 +1,12 @@
 require("awful")
 require("awful.autofocus")
 require("awful.rules")
-
 require("beautiful")
 require("naughty")
 require("revelation")
 require("vicious")
--- require("blingbling")
+require("blingbling")
+require("blingbling.udisks_glue")
 require("debian.menu")
 local quake = require("quake")
 
@@ -29,11 +29,27 @@ awesome.add_signal("debug::error", function (err)
 		end)
 end
 
+--
+-- [[ utilities ]]
+--
+
+
+function run_once(prg, args)
+  if not prg then
+    do return nil end
+  end
+  if not args then
+    args=""
+  end
+  awful.util.spawn_with_shell('pgrep -f -u $USER -x ' .. prg .. ' || (' .. prg .. ' ' .. args ..')')
+end
+ 
 
 --
 -- [[ startup applications ]]
 --
-awful.util.spawn_with_shell("xcompmgr &")
+run_once("xcompmgr &")
+run_once("udisks-glue")
 awful.util.spawn_with_shell("fixres.sh")
 awful.util.spawn_with_shell("fixkeyboard")
 
@@ -47,7 +63,7 @@ beautiful.init(awful.util.getdir("config") .. "/themes/nice-and-clean-theme/them
 -- [[ global variables ]]
 --
 
-homeDir         = awful.util.getdir("config") .. "/../../"
+homeDir         = os.getenv("HOME")
 configDir       = awful.util.getdir("config")
 blue 		= "#426797"
 white 		= "#ffffff"
@@ -59,6 +75,7 @@ fontwidget 	= theme.font
 space           = 32
 icons           = configDir .. "/icons/"
 
+naughty.config.default_preset.border_width     = 0
 --
 -- [[ default applications ]]
 --
@@ -139,6 +156,16 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
 
 mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 		menu = mymainmenu })
+
+udisks_glue=blingbling.udisks_glue.new(beautiful.udisks_glue)
+udisks_glue:set_mount_icon(beautiful.accept)
+udisks_glue:set_umount_icon(beautiful.cancel)
+udisks_glue:set_detach_icon(beautiful.cancel)
+udisks_glue:set_Usb_icon(beautiful.usb)
+udisks_glue:set_Cdrom_icon(beautiful.cdrom)
+awful.widget.layout.margins[udisks_glue.widget]= { top = 4}
+udisks_glue.widget.resize= false
+
 --
 -- [[ clock widget  ]]
 --
@@ -309,6 +336,7 @@ for s = 1, screen.count() do
 		kbdicon,
 		spotifywidget,
 		spotifyicon,
+		udisks_glue.widget,
 		s == 1 and mysystray or nil,
 		mytasklist[s],
 		layout = awful.widget.layout.horizontal.rightleft
@@ -323,6 +351,8 @@ root.buttons(awful.util.table.join(
 			awful.button({ }, 4, awful.tag.viewnext),
 			awful.button({ }, 5, awful.tag.viewprev)
 			))
+
+
 
 --
 -- [[ global key mappings ]]
@@ -409,7 +439,6 @@ globalkeys = awful.util.table.join(
 
 		awful.key({modkey}, "`", function () quakeconsole[mouse.screen]:toggle() end),
 		awful.key({modkey}, "r", function () mypromptbox[mouse.screen]:run() end),
-
 		awful.key({ modkey }, "x",
 				function ()
 				awful.prompt.run({ prompt = "Run Lua code: " },
@@ -556,7 +585,6 @@ end
 -- volume notification
 
 volnotiicon = nil
-
 function volnoti()
 	closeLastNoti()
 	naughty.notify{
@@ -566,7 +594,7 @@ function volnoti()
 		bg=blue,
 		border_color = blue,
 		timeout=1,
-		width = 256,
+		width = 245,
 		screen = mouse.screen,
 	}
 end
