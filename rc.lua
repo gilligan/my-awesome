@@ -89,7 +89,7 @@ browser     = "google-chrome"
 --
 -- [[ modifier key configuration ]]
 --
- modkey = "Mod1"
+ modkey = "Mod4"
 -- modkey = "#94"
 
 --
