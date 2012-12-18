@@ -43,15 +43,15 @@ function run_once(prg, args)
   end
   awful.util.spawn_with_shell('pgrep -f -u $USER -x ' .. prg .. ' || (' .. prg .. ' ' .. args ..')')
 end
- 
+
 
 --
 -- [[ startup applications ]]
 --
 run_once("xcompmgr &")
 run_once("udisks-glue")
-awful.util.spawn_with_shell("fixres.sh")
-awful.util.spawn_with_shell("fixkeyboard")
+run_once("gnome-settings-daemon")
+awful.util.spawn_with_shell("xset r rate 200 60")
 
 --
 -- [[ theme ]]
