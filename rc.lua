@@ -8,6 +8,8 @@ require("vicious")
 require("blingbling")
 require("blingbling.udisks_glue")
 require("debian.menu")
+
+local helpers = require("vicious.helpers")
 local quake = require("quake")
 
 --
@@ -48,10 +50,10 @@ end
 --
 -- [[ startup applications ]]
 --
-run_once("xcompmgr &")
 run_once("udisks-glue")
 run_once("gnome-settings-daemon")
 awful.util.spawn_with_shell("xset r rate 200 60")
+-- awful.util.spawn_with_shell("xcompmgr")
 
 --
 -- [[ theme ]]
@@ -166,14 +168,18 @@ udisks_glue:set_Cdrom_icon(beautiful.cdrom)
 awful.widget.layout.margins[udisks_glue.widget]= { top = 4}
 udisks_glue.widget.resize= false
 
+
+separator = widget({type="textbox"})
+separator.text = " | "
+spacer = widget({type="textbox"})
+spacer.text = "     "
+
 --
 -- [[ clock widget  ]]
 --
 
 --mytextclock = awful.widget.textclock({ align = "right",}, "<span font_desc='" .. fontwidget .."'>" .. "%H:%M  " .. "</span>", 60)
 mytextclock = awful.widget.textclock({ align = "right",}, "<span font_desc='" .. fontwidget .."'>" .. "%H:%M " .. "</span>", 60)
-clockicon = widget({ type = "imagebox" });
-clockicon.image = image(icons .. "clock.png")
 
 --
 -- [[ keylayout widget  ]]
@@ -203,14 +209,12 @@ kbdicon.image = image(icons .. "bug.png")
 --
 
 mymem = widget({ type = "textbox" })
-mymem.width = 22
+mymem.width = 50 
 vicious.register(mymem, vicious.widgets.mem, function (widget, args)
 	local num = string.format("%02d",args[1])
-	return "<span font_desc='" .. fontwidget .."'>" .. num .. "%" .. "</span>"
+	return "<span font_desc='" .. fontwidget .."'>mem:" .. num .. "%" .. "</span>"
 end
 , 30)
-mymemicon = widget({ type = "imagebox" })
-mymemicon.image = image(icons .. "mem.png")
 
 --
 -- [[ cpu load widget ]]
@@ -219,12 +223,12 @@ mymemicon.image = image(icons .. "mem.png")
 mycpuload = widget({ type = "textbox" })
 vicious.register(mycpuload, vicious.widgets.cpu, function (widget, args)
 	local num = string.format("%02d",args[1])
-	return "<span font_desc='" .. fontwidget .."'>" .. num .. "%" .. "</span>"
+	return "<span font_desc='" .. fontwidget .."'>cpu:" .. num .. "%" .. "</span>"
 	end
 , 5)
-mycpuload.width = 22
-mycpuloadicon = widget({ type = "imagebox" })
-mycpuloadicon.image = image(icons .. "cpu.png")
+mycpuload.width = 50
+-- mycpuloadicon = widget({ type = "imagebox" })
+-- mycpuloadicon.image = image(icons .. "cpu.png")
 
 --
 -- [[ spotify widget ]]
@@ -234,13 +238,11 @@ spotifywidget = widget({type = "textbox" })
 vicious.register( spotifywidget, vicious.widgets.spotify, function ( widget, args)
     if args["{State}"] == 'Playing' then
 	local info = args["{Artist}"] .. ':' .. args["{Title}"]
-	return (info:gsub("^%s*(.-)%s*$","%1"))
+	return helpers.escape(info:gsub("^%s*(.-)%s*$","%1"))
     else
-        return '--'
+        return "" 
     end
 end, 2)
-spotifyicon = widget({ type = "imagebox" });
-spotifyicon.image = image(icons .. "spotify.png")
 
 --
 -- [[ systray widget ]]
@@ -314,10 +316,14 @@ for s = 1, screen.count() do
 				awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
 				awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end)))
 	mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all, mytaglist.buttons)
+
+-- disable tasklist for now, might want it back later though ? ..
+
 	mytasklist[s] = awful.widget.tasklist(function(c)
 			return awful.widget.tasklist.label.currenttags(c, s)
 			end, mytasklist.buttons)
-	mywibox[s] = awful.wibox({ position = "top", screen = s })
+
+	mywibox[s] = awful.wibox({ position = "top", screen = s, height= 24 })
 	mywibox[s].widgets = {
 		{
 			mylauncher,
@@ -327,19 +333,19 @@ for s = 1, screen.count() do
 		},
 		mylayoutbox[s],
 		mytextclock,
-		clockicon,
+		separator,
 		mymem,
-		mymemicon,
+		separator,
 		mycpuload,
-		mycpuloadicon,
+		separator,
 		kbdcfg.widget,
-		kbdicon,
+		separator,
 		spotifywidget,
-		spotifyicon,
+		spacer,
 		udisks_glue.widget,
 		s == 1 and mysystray or nil,
 		mytasklist[s],
-		layout = awful.widget.layout.horizontal.rightleft
+		layout = awful.widget.layout.horizontal.rightleft,
 	}
 end
 

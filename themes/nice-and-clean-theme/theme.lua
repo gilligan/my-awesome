@@ -7,20 +7,47 @@ theme.wallpaper_cmd = { "awsetbg " .. theme.theme_dir .. "/background.jpg" }
 
 theme.font          = "ProggyCleanTT 12"
 
-theme.bg_normal     = "#222222"
-theme.bg_focus      = "#d8d8d8"
-theme.bg_urgent     = "#d02e54"
-theme.bg_minimize   = "#444444"
 
-theme.fg_normal     = "#cccccc"
-theme.fg_focus      = "#000000"
-theme.fg_urgent     = "#ffffff"
-theme.fg_minimize   = "#ffffff"
+theme.bg_normal = "#e3dad1"
+theme.bg_focus  = "#b0b0b0" -- "#444444"
+theme.bg_urgent       = "#c77b4b"
+theme.bg_minimize     = "#e3dad1"
+theme.bg_onscreen     = "#FFFFFF00"
 
-theme.border_width  = "2"
-theme.border_normal = "#000000"
-theme.border_focus  = "#d02e54"
-theme.border_marked = "#91231c"
+theme.fg_normal       = "#000000"
+theme.fg_focus        = "#ffffff"
+theme.fg_urgent       = "#000000"
+theme.fg_minimize     = "#000000"
+theme.fg_onscreen     = "#7f7f7f"
+
+-- theme.border_width    = 1
+-- theme.border_normal   = "#222222"
+-- theme.border_focus    = "#000000"
+-- theme.border_marked   = "#91231c"
+
+
+--
+-- old settings
+--
+
+-- theme.bg_normal     = "#222222"
+-- theme.bg_focus      = "#d8d8d8"
+-- theme.bg_urgent     = "#d02e54"
+-- theme.bg_minimize   = "#444444"
+
+-- theme.fg_normal     = "#cccccc"
+-- theme.fg_focus      = "#000000"
+-- theme.fg_urgent     = "#ffffff"
+-- theme.fg_minimize   = "#ffffff"
+
+ theme.border_width  = "2"
+ theme.border_normal = "#000000"
+ theme.border_focus  = "#a14759" -- "#d02e54"
+ theme.border_marked = "#91231c"
+
+--
+-- end old settings
+--
 
 -- There are other variable sets
 -- overriding the default one when
