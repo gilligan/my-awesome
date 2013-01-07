@@ -210,7 +210,7 @@ kbdicon.image = image(icons .. "bug.png")
 --
 
 mymem = widget({ type = "textbox" })
-mymem.width = 50 
+mymem.width = 50
 vicious.register(mymem, vicious.widgets.mem, function (widget, args)
 	local num = string.format("%02d",args[1])
 	return "<span font_desc='" .. fontwidget .."'>mem:" .. num .. "%" .. "</span>"
@@ -241,7 +241,7 @@ vicious.register( spotifywidget, vicious.widgets.spotify, function ( widget, arg
 	local info = args["{Artist}"] .. ':' .. args["{Title}"]
 	return helpers.escape(info:gsub("^%s*(.-)%s*$","%1"))
     else
-        return "" 
+        return ""
     end
 end, 2)
 
@@ -320,9 +320,9 @@ for s = 1, screen.count() do
 
 -- disable tasklist for now, might want it back later though ? ..
 
-	mytasklist[s] = awful.widget.tasklist(function(c)
-			return awful.widget.tasklist.label.currenttags(c, s)
-			end, mytasklist.buttons)
+	--mytasklist[s] = awful.widget.tasklist(function(c)
+			--return awful.widget.tasklist.label.currenttags(c, s)
+			--end, mytasklist.buttons)
 
 	mywibox[s] = awful.wibox({ position = "top", screen = s, height= 24 })
 	mywibox[s].widgets = {
@@ -345,7 +345,7 @@ for s = 1, screen.count() do
 		spacer,
 		udisks_glue.widget,
 		s == 1 and mysystray or nil,
-		mytasklist[s],
+		--mytasklist[s],
 		layout = awful.widget.layout.horizontal.rightleft,
 	}
 end
@@ -384,7 +384,7 @@ globalkeys = awful.util.table.join(
 						 "Move to previous tag"),
 
 		-- mapping: <mod>-e       : mac-style expose function
-		awful.key({ modkey,           }, "e", revelation, 
+		awful.key({ modkey,           }, "e", revelation,
 						 "Toggle revelation"),
 
 		-- mapping: <mod>-j       : move to next client
@@ -439,9 +439,10 @@ globalkeys = awful.util.table.join(
 
 		keydoc.group("Misc"),
 
-		 awful.key({ "Mod1" }, "F2", function ()
+		 awful.key({modkey}, "t", function ()
 		     -- If you want to always position the menu on the same place set coordinates
-		     awful.menu.menu_keys.down = { "Down", "Alt_L" }
+		     awful.menu.menu_keys.down = { "Down", "j" }
+		     awful.menu.menu_keys.up = { "Down", "k" }
 		     local cmenu = awful.menu.clients({width=245}, { keygrabber=true, coords={x=525, y=330} })
 		 end),
 
