@@ -439,6 +439,12 @@ globalkeys = awful.util.table.join(
 
 		keydoc.group("Misc"),
 
+		 awful.key({ "Mod1" }, "F2", function ()
+		     -- If you want to always position the menu on the same place set coordinates
+		     awful.menu.menu_keys.down = { "Down", "Alt_L" }
+		     local cmenu = awful.menu.clients({width=245}, { keygrabber=true, coords={x=525, y=330} })
+		 end),
+
 		-- mapping: <mod>-<CR>     : open default terminal
 		awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end,
 						 "Open Terminal"),
