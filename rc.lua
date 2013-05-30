@@ -187,7 +187,7 @@ do
                    --
 
                    kbdcfg = {}
-                   kbdcfg.cmd = "setxkbmap"
+                   kbdcfg.cmd = "setxkbmap "
                    kbdcfg.layout = { "us", "de" }
                    kbdcfg.current = 1  -- us is our default layout
                    kbdcfg.widget = widget({ type = "textbox", align = "right" })
@@ -457,13 +457,14 @@ do
                        -- mapping: <mod>-<shift>-q : quit awesome
                        awful.key({ modkey, "Shift"   }, "q", awesome.quit,
                                  "Quit awesome"),
+		       awful.key({ modkey,           }, '=',     function () kbdcfg.switch() end, "Toggle keyboard layout"),
                        awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end, ""),
                        awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end, ""),
                        awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end, ""),
                        awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end, ""),
                        awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end, ""),
                        awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end, ""),
-                       awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end, ""),
+		       awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end, ""),
                        awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end, ""),
                        awful.key({ modkey, "Control" }, "n", awful.client.restore, "Restore Client"),
 
