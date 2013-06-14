@@ -8,6 +8,7 @@ require("vicious")
 require("blingbling")
 require("blingbling.udisks_glue")
 require("debian.menu")
+require("rodentbane")
 
 local helpers = require("vicious.helpers")
 local quake = require("quake")
@@ -367,6 +368,11 @@ do
 
                    globalkeys = awful.util.table.join(
 
+		       awful.key({modkey,            }, '.', 
+				 function ()
+				    rodentbane.start()
+				 end, "start rodentbane mode"),
+
                        keydoc.group("Layout manipulation"),
 
                        awful.key({ modkey,           }, "F1",   keydoc.display),
@@ -582,6 +588,10 @@ do
                                                                             size_hints_honor = false } },
                                                                             { rule = { class = "MPlayer" },
                                                                             properties = { floating = true } },
+
+                                                                            { rule = { class = "Tomboy" },
+                                                                            properties = { floating = true } },
+
                                                                             { rule = { class = "gimp" },
                                                                             properties = { floating = true } },
                                                                             { rule = { class = "XTerm" },
