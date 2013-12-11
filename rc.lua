@@ -54,8 +54,10 @@ do
                    --
                    run_once("udisks-glue")
                    run_once("gnome-settings-daemon")
+                   run_once("shutter")
+                   run_once("xcape", "-e 'Control_L=Escape;Shift_R=parenright;Shift_L=parenleft'")
+                   run_once("compton", "--inactive-dim 0.2 --mark-wmwin-focused  --use-ewmh-active-win")
                    awful.util.spawn_with_shell("xset r rate 200 60")
-                   -- awful.util.spawn_with_shell("xcompmgr")
 
                    --
                    -- [[ theme ]]
@@ -368,7 +370,7 @@ do
 
                    globalkeys = awful.util.table.join(
 
-		       awful.key({modkey,            }, '.', 
+		       awful.key({modkey,            }, '.',
 				 function ()
 				    rodentbane.start()
 				 end, "start rodentbane mode"),
@@ -473,6 +475,9 @@ do
 		       awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end, ""),
                        awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end, ""),
                        awful.key({ modkey, "Control" }, "n", awful.client.restore, "Restore Client"),
+
+                       awful.key({modkey}, "\\", function () sexec("sh ~/.bin/gll" ) end,
+                                 "Show Gamesload Log"),
 
                        awful.key({modkey}, "[", function () sexec("sh ~/.config/awesome/extra/vol.sh down" ) end,
                                  "Increase Volume"),
@@ -591,6 +596,23 @@ do
 
                                                                             { rule = { class = "Tomboy" },
                                                                             properties = { floating = true } },
+
+                                                                            --
+                                                                            -- apps on the 'mail' tag
+                                                                            --
+                                                                            { rule = { class = "Thunderbird" },
+                                                                            properties = { floating = false,
+                                                                                           tag = tags[1][1]} },
+
+                                                                            --
+                                                                            -- apps on the 'chat' tag
+                                                                            --
+                                                                            { rule = { class = "Pidgin" },
+                                                                            properties = { floating = false,
+                                                                                           tag = tags[1][3]} },
+                                                                            { rule = { class = "Skype" },
+                                                                            properties = { floating = false,
+                                                                                           tag = tags[1][3]} },
 
                                                                             { rule = { class = "gimp" },
                                                                             properties = { floating = true } },
