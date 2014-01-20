@@ -53,7 +53,7 @@ do
                    -- [[ startup applications ]]
                    --
                    run_once("udisks-glue")
-                   run_once("gnome-settings-daemon")
+                   --run_once("gnome-settings-daemon")
                    run_once("shutter")
                    run_once("xcape", "-e 'Control_L=Escape;Shift_R=parenright;Shift_L=parenleft'")
                    run_once("compton", "--inactive-dim 0.2 --mark-wmwin-focused  --use-ewmh-active-win")
@@ -444,6 +444,12 @@ do
                                      end
                                  end,
                                  "Jump to previous client"),
+
+                       -- mapping: <mod>-b        : toggle wibox visibility
+                       awful.key({ modkey }, "b", function ()
+                                 mywibox[mouse.screen].visible = not mywibox[mouse.screen].visible
+                             end),
+
 
                        keydoc.group("Misc"),
 
